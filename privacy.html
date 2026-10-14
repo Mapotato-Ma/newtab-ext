@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>隐私政策 · 索引卡（新标签页扩展）</title>
+<style>
+  :root { color-scheme: light dark; --fg:#1a1c1f; --muted:#6b7078; --bg:#fafaf8; --line:#e4e4e0; --card:#fff; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#eceef1; --muted:#9aa0a8; --bg:#0e1013; --line:#262a30; --card:#15181c; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.75 -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 22px 96px; }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); font-size: 14px; margin-bottom: 36px; }
+  h2 { font-size: 18px; margin: 40px 0 10px; }
+  p, li { font-size: 15px; }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  a { color: #2b6cf6; }
+  .lede {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px; font-size: 15px;
+  }
+  .lede strong { font-weight: 600; }
+  code {
+    background: var(--card); border: 1px solid var(--line); border-radius: 5px;
+    padding: 1px 5px; font-size: 13px;
+  }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 4px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); font-size: 14px; vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; white-space: nowrap; }
+  footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>隐私政策</h1>
+  <div class="sub">适用于 Chrome 扩展「索引卡 · 新标签页」 · 最后更新：2026 年 10 月 14 日</div>
+
+  <div class="lede">
+    <strong>一句话：这个扩展不收集、不上传、不存储你的任何个人数据。</strong><br>
+    它只做一件事 —— 在本地读取你浏览器里已有的书签，然后把它画成一个新标签页。
+    没有账号系统、没有服务器、没有统计埋点、没有广告。
+  </div>
+
+  <h2>扩展做什么</h2>
+  <p>
+    「索引卡」把 Chrome 的<strong>书签文件夹</strong>渲染成新标签页：左侧竖栏是第 1 层文件夹
+    （严格按你自己的顺序），右侧是这一组书签的索引卡；子文件夹可以逐层钻取，顶部面包屑显示当前位置。
+    所有渲染都在你的浏览器本地完成。
+  </p>
+
+  <h2>收集哪些数据</h2>
+  <p><strong>不收集。</strong>具体来说：</p>
+  <ul>
+    <li>不收集、不读取你的浏览历史</li>
+    <li>不收集、不上传你的书签内容（只在本地内存里读取用于显示）</li>
+    <li>不收集设备信息、位置、IP、账号信息</li>
+    <li>不包含任何分析 / 统计 / 崩溃上报 SDK，不发起任何「回家」请求</li>
+    <li>不出售、不转让任何数据给第三方（因为没有数据可转让）</li>
+  </ul>
+
+  <h2>权限逐条说明</h2>
+  <table>
+    <tr><th><code>bookmarks</code></th>
+      <td>读取你书签栏里的文件夹与网址，用来渲染分组和磁贴。
+        <strong>只读</strong> —— 扩展不会创建、修改、移动或删除任何书签。</td></tr>
+    <tr><th><code>favicon</code></th>
+      <td>向 Chrome 自己的图标缓存取每个书签的图标。这个缓存就在你本机，
+        Chrome 不会因此把任何信息发给网站。取不到图标时，扩展用书签标题的第一个字作为兜底显示。</td></tr>
+    <tr><th><code>storage</code></th>
+      <td>保存你的界面偏好（深色/浅色、界面缩放、打开方式、搜索引擎等）。
+        存在 <code>chrome.storage.sync</code>，也就是 <strong>Chrome 自带的账号同步</strong>里 ——
+        数据由 Google 管理、在你自己的设备之间同步，扩展作者看不到，也没有任何服务器接收它。</td></tr>
+    <tr><th><code>api.bing.com</code></th>
+      <td>仅当你在新标签页的搜索框里输入文字时，把<strong>你输入的那段文字</strong>发给必应的
+        <em>搜索建议</em>接口，好把候选词显示在下拉框里。不发送书签、不发送浏览历史。</td></tr>
+    <tr><th><code>suggestqueries.google.com</code></th>
+      <td>同上，只是换成谷歌的建议接口（当你把搜索引擎切成谷歌时）。
+        同样是<strong>只发你输入的那段文字</strong>。</td></tr>
+  </table>
+  <p>
+    搜索框里输入的字会发给对应的搜索引擎，这是「搜索建议」这个功能本身的要求 —— 和你直接在搜索引擎网站
+    输入是一样的。如果你想完全避免这一点，不使用搜索框即可，扩展的其余功能不受影响。
+  </p>
+
+  <h2>远程代码</h2>
+  <p>
+    扩展<strong>不包含、不加载任何远程代码</strong>。所有 JavaScript 都随扩展一起打包，
+    更新只能通过 Chrome 应用商店的正式升级流程发生。
+  </p>
+
+  <h2>数据留存与删除</h2>
+  <p>
+    扩展不持有任何数据，所以没有「删除数据」的流程。卸载扩展后，
+    存在 <code>chrome.storage.sync</code> 里的界面偏好会被 Chrome 清除；
+    你也可以随时在 Chrome 的扩展管理页里移除它。
+  </p>
+
+  <h2>儿童</h2>
+  <p>本扩展不面向儿童，也不收集任何年龄相关或个人身份信息。</p>
+
+  <h2>政策变更</h2>
+  <p>如果这份政策有更新，会修改本页顶部的「最后更新」日期。功能上的实质变化会在扩展的版本说明里一并写明。</p>
+
+  <h2>联系方式</h2>
+  <p>有任何疑问，可发邮件到 <a href="mailto:pf-ma@qq.com">pf-ma@qq.com</a>。</p>
+
+  <footer>
+    「索引卡 · 新标签页」是一个个人开发者发布的免费扩展，不提供任何形式的商业数据服务。
+  </footer>
+</main>
+</body>
+</html>

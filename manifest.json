@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "索引卡 · 新标签页",
+  "version": "0.4.0",
+  "description": "把 Chrome 书签直接渲染成新标签页的分组网格。无需账号，配置走 Chrome 自带同步。",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "permissions": [
+    "bookmarks",
+    "favicon",
+    "storage"
+  ],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "host_permissions": [
+    "https://api.bing.com/*",
+    "https://suggestqueries.google.com/*"
+  ]
+}

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文件夹原生约束 · 排版预案</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f0; --card:#fff; --line:#e9e3d6; --line-soft:#f0ece2;
+  --ink:#14171e; --ink2:#3a4256; --muted:#7c7a72;
+  --primary:#2f6f5e; --primary-soft:rgba(47,111,94,.08);
+  --warn:#c97b3f; --warn-soft:rgba(201,123,63,.10);
+  --rose:#b06367; --rose-soft:rgba(176,99,103,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Outfit',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;font-size:15px;line-height:1.6}
+.wrap{max-width:1060px;margin:0 auto;padding:56px 28px 96px}
+h1{font-family:'DM Serif Display',serif;font-weight:400;font-size:34px;letter-spacing:-.01em;margin:0 0 10px;line-height:1.25}
+h2{font-family:'DM Serif Display',serif;font-weight:400;font-size:24px;letter-spacing:-.005em;margin:0 0 6px;line-height:1.3}
+h3{font-size:16px;font-weight:600;margin:0 0 6px}
+p{margin:0 0 10px;color:var(--ink2)}
+.lead{font-size:16px;max-width:70ch}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);font-weight:600;margin-bottom:14px}
+section{margin-top:50px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:20px}
+.mono{font-family:'JetBrains Mono',monospace}
+.kbd{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11.5px;background:#fff;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--ink2)}
+.hero-rule{height:1px;background:var(--line);margin-top:28px}
+.verdict{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.verdict svg{flex:0 0 auto;margin-top:2px;color:var(--primary)}
+.verdict p{margin:0;font-size:15px}
+.verdict b{color:var(--ink);font-weight:600}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:880px){.cols{grid-template-columns:1fr}}
+
+/* ===== 复刻上一版的 app 视觉语言 ===== */
+.app{--app-bg:#fbfaf7;--rail-bg:#f5f3ee;--hair:#eae5da;--ink:#14171e;--ink2:#3a4256;--muted:#918c81;--acc:#2f6f5e;
+  background:var(--app-bg);color:var(--ink);display:flex;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  font-family:'Outfit',-apple-system,'PingFang SC',sans-serif}
+.rail{flex:0 0 auto;background:var(--rail-bg);border-right:1px solid var(--hair);padding:14px 10px;display:flex;flex-direction:column;overflow:hidden}
+.rail-cap{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:2px 9px 8px}
+.gitem{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:8px;font-size:13px;color:var(--ink2);position:relative}
+.gitem .nm{min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gitem .n{font-size:10.5px;font-family:'JetBrains Mono',monospace;color:var(--muted);flex:0 0 auto}
+.gitem .dotm{width:6px;height:6px;border-radius:50%;background:var(--acc);opacity:0;flex:0 0 auto}
+.gitem.on{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.06);color:var(--ink);font-weight:600}
+.gitem.on .n{color:var(--acc)} .gitem.on .dotm{opacity:1}
+.gitem.zero{opacity:.38}
+.gitem.zero .n{color:#b5afa3}
+/* 内联预览 */
+.gitem .fly{position:absolute;left:calc(100% + 12px);top:-6px;background:#fff;border:1px solid var(--line);
+  border-radius:11px;box-shadow:0 12px 30px -8px rgba(0,0,0,.22);padding:9px 11px;min-width:180px;z-index:9}
+.fly h6{margin:0 0 7px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.fly div{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink2);padding:3px 0;white-space:nowrap}
+.fly .fd{width:16px;height:16px;border-radius:5px;flex:0 0 auto;color:#fff;font-size:8.5px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.fly .ft{overflow:hidden;text-overflow:ellipsis}
+.fly .more2{font-size:11px;color:var(--muted);border-top:1px dashed var(--line);margin-top:6px;padding-top:6px}
+.scroller{max-height:326px;overflow:hidden;position:relative}
+.fade{position:absolute;left:0;right:0;bottom:0;height:44px;background:linear-gradient(180deg,rgba(245,243,238,0),var(--rail-bg));pointer-events:none}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column;padding:16px 22px}
+.crumb{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.crumb b{color:var(--ink);font-weight:600;color:var(--muted)}
+.crumb .cur{color:var(--ink);font-weight:600}
+.crumb .sep{color:#c4beb1}
+.crumb .cc{font-family:'JetBrains Mono',monospace;font-size:10.5px}
+.list{padding:10px 0 0}
+.row{display:flex;align-items:center;gap:13px;padding:9px 10px;border-radius:11px}
+.row:hover{background:rgba(0,0,0,.032)}
+.fav{flex:0 0 auto;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600}
+.tx{min-width:0;flex:1}
+.tx .t{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.35}
+.tx .d{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dm{flex:0 0 auto;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;width:62px;text-align:right}
+.ind{flex:0 0 auto;width:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#c4beb1;text-align:right}
+
+/* 标注 */
+.tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tag{font-size:12px;padding:4px 11px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;border:1px solid}
+.tag.g{background:var(--primary-soft);border-color:rgba(47,111,94,.24);color:var(--primary)}
+.tag.w{background:var(--warn-soft);border-color:rgba(201,123,63,.28);color:var(--warn)}
+.tag.r{background:var(--rose-soft);border-color:rgba(176,99,103,.28);color:var(--rose)}
+.tag svg{flex:0 0 auto}
+
+/* 宽度对比 */
+.wtest{display:flex;gap:12px;flex-wrap:wrap}
+.wbox{border:1px solid var(--hair);border-radius:10px;padding:8px 12px;background:#fff;min-width:150px}
+.wbox .wl{font-size:12.5px;color:var(--ink);white-space:nowrap}
+.wbox .wm{font-size:10.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:3px}
+.wbox.ok{border-color:rgba(47,111,94,.3);background:var(--primary-soft)}
+.wbox.no{border-color:rgba(176,99,103,.28);background:var(--rose-soft)}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.panel h3{margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.panel h3 svg{color:var(--primary)}
+.spec-row{display:grid;grid-template-columns:88px 1fr;gap:12px;padding:7px 0;font-size:13.5px;align-items:baseline}
+.spec-row+.spec-row{border-top:1px dashed var(--line-soft)}
+.spec-row .k{color:var(--muted);font-size:12.5px}
+.spec-row .v{color:var(--ink2)}
+.good{color:var(--primary)} .cost{color:var(--warn)}
+.callout{border:1px dashed var(--line);border-radius:14px;padding:16px 18px;background:rgba(255,255,255,.6)}
+.callout.q{border-color:rgba(201,123,63,.4);background:var(--warn-soft)}
+.callout.q h3{color:var(--warn)}
+.checklist{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.chk{display:grid;grid-template-columns:26px 158px 1fr;gap:12px;padding:11px 18px;font-size:13.5px;align-items:baseline;border-bottom:1px solid var(--line-soft)}
+.chk:last-child{border-bottom:none}
+.chk .ic{color:var(--primary)}
+.chk .k{color:var(--ink);font-weight:500}
+.chk .v{color:var(--ink2);font-size:13px}
+@media(max-width:720px){.chk{grid-template-columns:26px 1fr}.chk .v{grid-column:2}}
+footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Folder-Native Constraints</div>
+    <h1>分组 = Chrome 顶层文件夹</h1>
+    <p class="lead">这意味着分组名和数量<b>都不是设计能控制的变量</b>。排版的任务只剩一个：接住任意长度、任意数量、任意语言的文件夹名。</p>
+
+    <div class="verdict">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg>
+      <p>截图中 21 个组的顺序是 <span class="mono">AI → 常用 → token中转站 → 环境 → PRD原型图 → …</span>——中英混排、英文靠后，<b>这不是字母序，是你手动排的</b>。所以左栏必须保留原始顺序，任何"按数量/按频次重排"都会毁掉你花时间建立的空间记忆。</p>
+    </div>
+    <div class="hero-rule"></div>
+  </div>
+
+  <!-- A -->
+  <section style="margin-top:44px">
+    <div class="eyebrow">Constraint A</div>
+    <h2>文件夹名不可控：长度、中英、空格、全角</h2>
+    <p class="sub">真实名字里有 <span class="mono">token中转站</span>（12 字符无空格）、<span class="mono">归档 · 2026-10</span>（含空格与间隔号）、<span class="mono">PRD原型图</span>（拉丁+汉字紧贴）。宽度差异极大，排版必须显式处理。</p>
+
+    <div class="app">
+      <div class="rail" style="width:248px;flex-basis:248px">
+        <div class="rail-cap">文件夹 · 21（原始顺序）</div>
+        <div class="gitem on"><span class="dotm"></span><span class="nm">AI</span><span class="n">51</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">常用</span><span class="n">49</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">token中转站</span><span class="n">5</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">环境</span><span class="n">38</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">PRD原型图</span><span class="n">18</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">学习资料</span><span class="n">8</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">精选网站</span><span class="n">5</span></div>
+        <div class="gitem zero"><span class="dotm"></span><span class="nm">Flutter</span><span class="n">0</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">归档 · 2026-10</span><span class="n">80</span></div>
+      </div>
+      <div class="main">
+        <div class="crumb">全部文件夹 <span class="sep">/</span> <span class="cur">AI</span> <span class="cc">51</span></div>
+        <div class="list">
+          <div class="row"><div class="fav" style="width:32px;height:32px;background:#14171e;font-size:13px">M</div><div class="tx"><div class="t">MiniMax Agent · 智能体开发平台</div><div class="d">platform.minimax.io</div></div><span class="dm">12:40</span></div>
+          <div class="row"><div class="fav" style="width:32px;height:32px;background:#2f6f5e;font-size:13px">D</div><div class="tx"><div class="t">DeepSeek - 深度求索对话模型</div><div class="d">chat.deepseek.com</div></div><span class="dm">11:02</span></div>
+          <div class="row"><div class="fav" style="width:32px;height:32px;background:#c97b3f;font-size:13px">Q</div><div class="tx"><div class="t">下载 | Qoder - AI 编程助手</div><div class="d">qoder.com/download</div></div><span class="dm">昨天</span></div>
+          <div class="row"><div class="fav" style="width:32px;height:32px;background:#b06367;font-size:13px">K</div><div class="tx"><div class="t">Kimi.ai - 帮你看懂长文本</div><div class="d">kimi.moonshot.cn</div></div><span class="dm">2 天前</span></div>
+        </div>
+        <div class="tagrow">
+          <span class="tag g"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>名称单行 + 省略号，行高恒定 32px</span>
+          <span class="tag g"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>计数右对齐，不被长名挤走</span>
+          <span class="tag w"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>悬停显示完整名 + 完整路径</span>
+          <span class="tag r"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/></svg>不做两行折行——行高不齐会让 21 行视觉杂乱</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cols" style="margin-top:20px">
+      <div class="panel">
+        <h3><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg>宽度余量自测</h3>
+        <p style="font-size:13.5px;margin-bottom:12px">假设未来新增这些文件夹名，左栏 248px 下是否还留得住计数：</p>
+        <div class="wtest">
+          <div class="wbox ok"><div class="wl">内部知识库整理</div><div class="wm">9 字符汉字 · 18 宽</div></div>
+          <div class="wbox ok"><div class="wl">Rust / Tokio 异步</div><div class="wm">中英混排 · 26 宽</div></div>
+          <div class="wbox no"><div class="wl">design-system-tokens</div><div class="wm">21 字符拉丁 · 41 宽</div></div>
+          <div class="wbox no"><div class="wl">读书笔记 · 2026 上半年</div><div class="wm">超长 · 会截断</div></div>
+        </div>
+        <p style="font-size:13px;color:var(--ink2);margin-top:14px;margin-bottom:0">结论：<b>拉丁文长名一定会溢出</b>。所以省略号 + 悬停全称不是可选项，是必须项——不能指望加宽解决，因为文件名是你在 Chrome 里随手起的。</p>
+      </div>
+
+      <div class="panel">
+        <h3><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 3 6 6-6 6"/><path d="m12 21 6-6-6-6"/></svg>小分组：悬停内联预览</h3>
+        <p style="font-size:13.5px;margin-bottom:10px">计数 ≤ 5 的文件夹（如「我的 3」「视频 4」「Flutter 4」），在左栏悬停时直接浮出内容预览，省掉"点进去才知道是什么"这一跳：</p>
+        <div class="spec-row"><span class="k">触发</span><span class="v">悬停 + 停留 200ms</span></div>
+        <div class="spec-row"><span class="k">内容</span><span class="v">最多 4 条 · 站点名 + 字母色块</span></div>
+        <div class="spec-row"><span class="k">溢出</span><span class="v">显示「还有 N 项 →」</span></div>
+        <div class="spec-row"><span class="k">为什么值得</span><span class="v good">小分组的痛点不是找不到，是<b>不知道该不该点</b>。预览把这次点击变成零风险决策</span></div>
+        <div class="spec-row"><span class="k">边界</span><span class="v">计数 &gt; 5 不触发，避免浮层塞满</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- B -->
+  <section>
+    <div class="eyebrow">Constraint B</div>
+    <h2>文件夹数量不可控：21 → 50 会发生什么</h2>
+    <p class="sub">收藏会继续增长，文件夹会继续新建。排版必须在不重排顺序的前提下处理溢出。</p>
+
+    <div class="app">
+      <div class="rail" style="width:248px;flex-basis:248px;position:relative">
+        <div class="rail-cap">文件夹 · 21（原始顺序）</div>
+        <div class="scroller">
+          <div class="gitem on"><span class="dotm"></span><span class="nm">AI</span><span class="n">51</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">常用</span><span class="n">49</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">token中转站</span><span class="n">5</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">环境</span><span class="n">38</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">PRD原型图</span><span class="n">18</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">我的</span><span class="n">3</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">视频</span><span class="n">4</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">技术官网</span><span class="n">85</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">组件</span><span class="n">23</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">学习资料</span><span class="n">8</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">设计</span><span class="n">24</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">3D</span><span class="n">12</span></div>
+          <div class="gitem zero"><span class="dotm"></span><span class="nm">公司</span><span class="n">0</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">工具</span><span class="n">61</span></div>
+          <div class="gitem zero"><span class="dotm"></span><span class="nm">精选网站</span><span class="n">0</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">工具库</span><span class="n">13</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">信息查询</span><span class="n">14</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">Flutter</span><span class="n">4</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">入门</span><span class="n">27</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">公司内网</span><span class="n">10</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">归档 · 2026-10</span><span class="n">80</span></div>
+          <div class="gitem"><span class="dotm"></span><span class="nm">待整理 2026-11</span><span class="n">36</span></div>
+        </div>
+        <div class="fade"></div>
+      </div>
+      <div class="main">
+        <div class="crumb">全部文件夹 <span class="sep">/</span> <span class="cur">AI</span> <span class="cc">51</span></div>
+        <div class="spec-row" style="margin-top:14px"><span class="k">独立滚动</span><span class="v">左栏滚动，右侧列表不动。当前组始终滚入可见区</span></div>
+        <div class="spec-row"><span class="k">空文件夹</span><span class="v">计数 0 置灰 + 38% 透明，但仍留在原位——位置是你的空间记忆，不能因为空了就把它挪走</span></div>
+        <div class="spec-row"><span class="k">定位</span><span class="v">切换分组时左栏自动 scrollIntoView，不靠高亮色硬找</span></div>
+        <div class="spec-row"><span class="k">兜底</span><span class="v cost">超过 40 个文件夹时，顶部加一个输入框做<b>筛选而非排序</b>——保住原始顺序这条底线</span></div>
+        <div class="spec-row"><span class="k">不做</span><span class="v cost">不做「最近使用文件夹」置顶区。置顶 = 排序 = 破坏你手动排的顺序</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- C -->
+  <section>
+    <div class="eyebrow">Constraint C · 待确认</div>
+    <h2>Chrome 文件夹可以嵌套，当前页面只渲染了两层</h2>
+
+    <div class="callout q">
+      <h3>这个需要你确认一下</h3>
+      <p>Chrome 书签是树状结构：<b>顶层文件夹 → 子文件夹 → 书签</b>。如果你的文件夹里有子文件夹（比如 <span class="mono">AI / 图像生成 / Midjourney</span>），那当前页面把内容平铺成一层，嵌套层里的书签要么被合并计数、要么根本没显示。</p>
+      <p style="margin-top:8px">543 这个数字是否已经包含了所有层级的书签？如果没有，那问题就不是排版，而是<b>有内容没被渲染出来</b>——这是纯排版优化修不了的。</p>
+    </div>
+
+    <p style="margin-top:20px;font-size:14px">如果确实存在子文件夹，排版上的解法是<b>钻取式面包屑</b>：左栏只在顶层显示文件夹，进入后子文件夹以列表分组的形式出现，每组一行小标题。数据结构完全不动，只是把已有的第三层显示出来。</p>
+
+    <div class="app" style="margin-top:14px">
+      <div class="rail" style="width:248px;flex-basis:248px">
+        <div class="rail-cap">文件夹 · 21（原始顺序）</div>
+        <div class="gitem on"><span class="dotm"></span><span class="nm">AI</span><span class="n">51</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">常用</span><span class="n">49</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">token中转站</span><span class="n">5</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">环境</span><span class="n">38</span></div>
+        <div class="gitem"><span class="dotm"></span><span class="nm">归档 · 2026-10</span><span class="n">80</span></div>
+      </div>
+      <div class="main">
+        <div class="crumb">全部文件夹 <span class="sep">/</span> <span class="cur">AI</span> <span class="cc">51</span> <span style="color:#c4beb1">·</span> 含 4 个子文件夹</div>
+        <div class="list">
+          <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:12px 10px 6px">图像生成 · 11</div>
+          <div class="row"><span class="ind"></span><div class="fav" style="width:28px;height:28px;background:#6366f1;font-size:12px">M</div><div class="tx"><div class="t">Midjourney - 文本生成图像</div></div><span class="dm">4 天前</span></div>
+          <div class="row"><span class="ind"></span><div class="fav" style="width:28px;height:28px;background:#2f6f5e;font-size:12px">G</div><div class="tx"><div class="t">Galileo AI - 图像生成与编辑</div></div><span class="dm">3 天前</span></div>
+          <div class="row"><span class="ind"></span><div class="fav" style="width:28px;height:28px;background:#c97b3f;font-size:12px">T</div><div class="tx"><div class="t">通义万相 - AI 绘画创作</div></div><span class="dm">上周</span></div>
+          <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:16px 10px 6px">对话模型 · 23</div>
+          <div class="row"><span class="ind"></span><div class="fav" style="width:28px;height:28px;background:#14171e;font-size:12px">M</div><div class="tx"><div class="t">MiniMax Agent · 智能体开发平台</div></div><span class="dm">12:40</span></div>
+          <div class="row"><span class="ind"></span><div class="fav" style="width:28px;height:28px;background:#2f6f5e;font-size:12px">D</div><div class="tx"><div class="t">DeepSeek - 深度求索对话模型</div></div><span class="dm">11:02</span></div>
+          <div class="row"><span class="ind"></span><div class="fav" style="width:28px;height:28px;background:#b06367;font-size:12px">K</div><div class="tx"><div class="t">Kimi.ai - 帮你看懂长文本</div></div><span class="dm">2 天前</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tagrow">
+      <span class="tag g"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>子文件夹做小标题分组，不进左栏</span>
+      <span class="tag g"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>小标题可点击，直接折叠/展开该组</span>
+      <span class="tag w"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>面包屑永远显示完整路径，避免"我在哪个组"丢失</span>
+      <span class="tag r"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4"/></svg>不要在左栏做树形展开——21 项树状导航无法扫视</span>
+    </div>
+  </section>
+
+  <!-- 结论 -->
+  <section>
+    <div class="eyebrow">Rules</div>
+    <h2>落到排版上的六条硬规则</h2>
+    <p class="sub">全部只涉及栅格、字号、间距与状态，不触碰文件夹结构与书签数据。</p>
+    <div class="checklist">
+      <div class="chk"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="k">左栏保序</span><span class="v">严格按 Chrome 里的文件夹顺序展示，任何情况下不重排</span></div>
+      <div class="chk"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="k">名称单行</span><span class="v">行高恒定 32px，超长省略 + 悬停全称；不做折行</span></div>
+      <div class="chk"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="k">计数右对齐</span><span class="v">等宽字体、固定 32px 宽列，长短名称不推挤数字</span></div>
+      <div class="chk"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="k">小组内联预览</span><span class="v">计数 ≤ 5 的文件夹悬停浮出内容，把"要不要点"变成零风险</span></div>
+      <div class="chk"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="k">空组原地置灰</span><span class="v">计数 0 只降透明度，不移动位置、不折叠隐藏</span></div>
+      <div class="chk"><span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="k">左栏独立滚动</span><span class="v">切换分组时自动滚入可见区；超 40 个文件夹时顶部加筛选框（筛选 ≠ 排序）</span></div>
+    </div>
+
+    <div class="callout" style="margin-top:20px">
+      <h3 style="color:var(--primary)">这些是明确不做的</h3>
+      <p>按数量重排左栏 · 按频次置顶文件夹 · 给文件夹自动改名或打标签 · 折叠左栏做全屏模式 · 在左栏做多层树形展开。</p>
+      <p>前四条都会破坏你已经建立的顺序记忆，第五条会让 21 个文件夹彻底无法扫视。</p>
+    </div>
+  </section>
+
+  <footer>
+    文件夹名与计数取自你提供的页面截图；「待整理 2026-11」「公司 0」「精选网站 0」为演示溢出与空组状态而添加的示例项。子文件夹一节为条件预案，需先确认你的书签是否存在嵌套层级。
+  </footer>
+</div>
+
+<script>
+// 浮层：悬停小分组时显示内容预览
+document.querySelectorAll('.gitem').forEach(el=>{
+  const nm=el.querySelector('.nm'); if(!nm) return;
+  const n=parseInt((el.querySelector('.n')||{}).textContent||'0',10);
+  if(n>0 && n<=5){
+    el.style.cursor='default';
+    const fly=document.createElement('div');
+    fly.className='fly';
+    fly.style.display='none';
+    const L='0123456789ABCDEFGHIJKLMNOP'.split('');
+    const PAL=['#14171e','#2f6f5e','#c97b3f','#b06367','#3a4256'];
+    const PRE={'我的':['读书清单','播客订阅','年度目标'],'视频':['B 站稍后再看','YouTube 稍后','直播回放'],
+      'Flutter':['组件库','布局实践','状态管理'],'token中转站':['额度查询','用量统计','充值记录'],
+      '精选网站':['设计灵感','字体站','配色库']};
+    const items=PRE[nm.textContent]||['条目 A','条目 B','条目 C'];
+    fly.innerHTML='<h6>'+nm.textContent+' · '+n+'</h6>'+
+      items.map((t,i)=>'<div><span class="fd" style="background:'+PAL[i%PAL.length]+'">'+L[i%L.length]+'</span><span class="ft">'+t+'</span></div>').join('')+
+      (n>items.length?'<div class="more2">还有 '+(n-items.length)+' 项 →</div>':'');
+    el.appendChild(fly);
+    let timer=null;
+    el.addEventListener('mouseenter',()=>{timer=setTimeout(()=>{fly.style.display='block'},200)});
+    el.addEventListener('mouseleave',()=>{clearTimeout(timer);fly.style.display='none'});
+  }
+});
+</script>
+</body>
+</html>

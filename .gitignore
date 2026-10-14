@@ -1,0 +1,15 @@
+# 打包产物
+dist/
+*.zip
+
+# 预览页是 sync-preview.py 从 newtab.html 生成的（里面的 ?v= 时间戳每次都会变）
+# → 不入库，改完 newtab.html 跑一次 `python3 sync-preview.py` 就有
+preview.html
+preview-store.html
+
+# 评审时截的图（体积大，不入库）
+design/shots/
+
+# 系统垃圾
+.DS_Store
+Thumbs.db

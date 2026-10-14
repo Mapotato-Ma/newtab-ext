@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>新标签页</title>
+  <link rel="stylesheet" href="newtab.css">
+</head>
+<body>
+  <div class="page">
+
+    <header class="masthead">
+      <div class="masthead__time">
+        <span id="clock" class="clock">--:--</span>
+        <span id="greeting" class="greeting"></span>
+      </div>
+
+      <form id="search-form" class="search" action="https://www.bing.com/search" method="get">
+        <button id="btn-engine" class="search__engine" type="button" aria-label="切换搜索引擎">
+          <svg class="search__icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5"></circle>
+            <path d="M16 16l4.5 4.5"></path>
+          </svg>
+        </button>
+        <input id="search-input" name="q" type="search" placeholder="用必应搜索…" autocomplete="off"
+               spellcheck="false" aria-label="用必应搜索" role="combobox" aria-expanded="false"
+               aria-controls="suggest" aria-autocomplete="list">
+        <div id="suggest" class="suggest" role="listbox" aria-label="搜索建议" hidden></div>
+      </form>
+
+      <button id="btn-settings" class="icon-btn" type="button" title="设置" aria-label="设置">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <circle cx="12" cy="12" r="3.2"></circle>
+          <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <div class="layout">
+      <aside class="rail">
+        <div class="rail__head">
+          <span class="rail__cap">文件夹</span>
+          <span id="rail-total" class="rail__total"></span>
+        </div>
+        <input id="rail-filter" class="rail__filter" type="search" placeholder="筛选文件夹…"
+               aria-label="筛选文件夹" autocomplete="off" spellcheck="false" hidden>
+        <nav id="rail-list" class="rail__list" role="tablist" aria-label="书签分组"></nav>
+      </aside>
+
+      <div class="main">
+        <div id="crumbs" class="crumbs" aria-label="当前位置"></div>
+        <div id="board" class="board" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <footer class="colophon">
+      <span id="stats" class="colophon__stats"></span>
+      <span class="colophon__hint">数据来自 Chrome 书签 · 配置随 Chrome 账号同步</span>
+    </footer>
+
+  </div>
+
+
+
+
+  <aside id="settings" class="panel" hidden>
+    <div class="panel__head">
+      <h2>设置</h2>
+      <button id="btn-close-settings" class="icon-btn" type="button" aria-label="关闭">✕</button>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-theme">外观</label>
+      <select id="opt-theme">
+        <option value="auto">跟随系统</option>
+        <option value="light">浅色</option>
+        <option value="dark">深色</option>
+      </select>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-clock">时间显示</label>
+      <select id="opt-clock">
+        <option value="seconds">时:分:秒</option>
+        <option value="minutes">时:分</option>
+      </select>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-size">图标大小</label>
+      <select id="opt-size">
+        <option value="compact">紧凑</option>
+        <option value="regular">标准</option>
+        <option value="roomy">宽松</option>
+      </select>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-scale">界面缩放</label>
+      <select id="opt-scale">
+        <option value="1">100%</option>
+        <option value="1.15">115%（默认）</option>
+        <option value="1.3">130%</option>
+        <option value="1.5">150%</option>
+        <option value="0.9">90%（更密）</option>
+      </select>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-open">打开方式</label>
+      <select id="opt-open">
+        <option value="newtab">新标签页（默认）</option>
+        <option value="current">当前标签页</option>
+      </select>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-fs">字体大小</label>
+      <select id="opt-fs">
+        <option value="12">小 · 12</option>
+        <option value="13">标准 · 13（默认）</option>
+        <option value="15">大 · 15</option>
+        <option value="18">特大 · 18</option>
+        <option value="21">超大 · 21</option>
+        <option value="24">极大 · 24</option>
+      </select>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-fw">字体字重</label>
+      <select id="opt-fw">
+        <option value="400">常规（默认）</option>
+        <option value="500">中等</option>
+        <option value="600">加粗</option>
+      </select>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-cols">每行列数</label>
+      <select id="opt-cols">
+        <option value="1">1 列</option>
+        <option value="2">2 列</option>
+        <option value="3">3 列（默认）</option>
+        <option value="4">4 列</option>
+      </select>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-count">文件夹计数</label>
+      <select id="opt-count">
+        <option value="deep">含子文件夹（默认）</option>
+        <option value="self">只算本级</option>
+      </select>
+    </div>
+
+    <div class="panel__row">
+      <label for="opt-loosies">显示「未分组」</label>
+      <input id="opt-loosies" type="checkbox">
+    </div>
+
+    <p class="panel__note">
+      <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> 切分组（到头绕回），
+      <kbd>Esc</kbd> 返回上一级，点文件夹左边的 <kbd>▸</kbd> 原地折叠，
+      <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>+</kbd> <kbd>−</kbd> 缩放，
+      <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>K</kbd> 搜索。
+      设置存在 <code>chrome.storage.sync</code>，跟着 Chrome 账号走，不需要注册任何账号。
+    </p>
+  </aside>
+  <script src="newtab.js"></script>
+</body>
+</html>
