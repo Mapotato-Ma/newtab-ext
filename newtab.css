@@ -749,6 +749,10 @@ html {
   color: var(--fg);
   overflow: hidden;
   overflow-wrap: anywhere;
+  /* 最多 3 行，超出省略 —— 卡片高度因此有上限，再长的标题也撑不高 */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .card__host {
