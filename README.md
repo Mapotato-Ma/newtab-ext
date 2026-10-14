@@ -194,3 +194,13 @@ sed -e "s|<script src=\"newtab.js\"></script>|<script src=\"mock-chrome.js?v=$V\
   建议先做「只存本地顺序」（`chrome.storage.sync` 按文件夹分 key，单项上限 8KB），
   真移动书签（`chrome.bookmarks.move`）作为默认关的可选开关 + 可撤销
 - 壁纸配色、多引擎
+
+## 隐私政策维护（两份都要改）
+
+源文件是本仓库的 `privacy.html`。改完之后：
+
+1. 推 GitHub Pages 仓库（商店里填的就是它）：
+   `cp privacy.html ../../newtab-privacy/index.html && cd ../../newtab-privacy && git add -A && git commit -m "docs: …" && git push`
+   → 等约 1 分钟，复核 <https://mapotato-ma.github.io/newtab-privacy/>
+2. 同步服务器上的镜像：`scp privacy.html tx:/var/www/html/mapotato/privacy/newtab.html`
+   （在腾讯云上，非必须，但两份内容别打架）
