@@ -4,7 +4,7 @@
 
 'use strict';
 
-const DEFAULTS = { theme: 'auto', size: 'regular', showLoosies: true, clock: 'seconds', scale: 1.15, openIn: 'newtab', engine: 'bing', countMode: 'deep', cols: 3, fs: 13, fw: 400 };
+const DEFAULTS = { theme: 'auto', size: 'regular', showLoosies: true, clock: 'seconds', scale: 1.15, openIn: 'newtab', engine: 'bing', countMode: 'deep', cols: 3, fs: 13, fw: 400, flyout: true };
 
 const el = {
   board: document.getElementById('board'),
@@ -29,6 +29,7 @@ const el = {
   fs: document.getElementById('opt-fs'),
   fw: document.getElementById('opt-fw'),
   engineBtn: document.getElementById('btn-engine'),
+  flyout: document.getElementById('opt-fly'),
   loosies: document.getElementById('opt-loosies'),
 };
 
@@ -132,6 +133,8 @@ function applySettings() {
   // 每行列数：固定列数而不是 auto-fill —— auto-fill 在宽屏上只排两列，右边留一大片死白
   document.documentElement.style.setProperty('--cols', String(settings.cols));
   applyEngine();
+  el.flyout.checked = settings.flyout;
+  if (!settings.flyout) closeFly();   // 关掉开关时，正在显示的面板立刻收起
   el.loosies.checked = settings.showLoosies;
 }
 
@@ -542,6 +545,7 @@ function buildFly(g) {
 /** 左栏预览：hover + focus 双通道（只有鼠标能用的东西不算做完） */
 function attachRailPreview(btn, g) {
   const open = () => {
+    if (!settings.flyout) return;      // 设置里关掉了就完全不触发
     if (flyTimer) return;
     // 一点点延迟：鼠标只是路过时不该弹出来
     flyTimer = setTimeout(() => { flyTimer = 0; showFly(g); }, 140);
@@ -1239,6 +1243,10 @@ function wireSettings() {
   el.openIn.addEventListener('change', () => {
     saveSettings({ openIn: el.openIn.value });
     repaint(true);             // 卡片的 target 是生成时写的，重画一遍最省事
+  });
+  el.flyout.addEventListener('change', () => {
+    saveSettings({ flyout: el.flyout.checked });
+    if (!el.flyout.checked) closeFly();
   });
   el.loosies.addEventListener('change', () => {
     saveSettings({ showLoosies: el.loosies.checked });
